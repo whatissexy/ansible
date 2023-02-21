@@ -1,0 +1,58 @@
+version: '3.8'
+
+networks:
+  ansible_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+          gateway: 172.21.0.1
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.driver.mtu: "1500"
+
+services:
+### HOST_1 ###
+  host_1:
+    image: ubuntu:latest
+#    expose:
+#      - "22"
+    tty: true
+    container_name: host_1
+#    volumes:
+#      - /usr/share/zoneinfo/Europe/Moscow:/etc/localtime
+#    environment:
+#      TZ: "Europe/Moscow"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.001'
+          memory: 128M
+        reservations:
+          cpus: '0.0001'
+          memory: 64M
+    networks:
+      ansible_net:
+        ipv4_address: 172.21.0.10
+      
+ ### HOST_2 ###
+  host_2:
+    image: ubuntu:latest
+    tty: true
+    container_name: host_2
+    environment:
+      TZ: "Europe/Moscow"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.001'
+          memory: 128M
+        reservations:
+          cpus: '0.0001'
+          memory: 64M
+    networks:
+      ansible_net:
+        ipv4_address: 172.21.0.11

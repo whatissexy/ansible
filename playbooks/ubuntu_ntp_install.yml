@@ -1,0 +1,23 @@
+---
+- name: Test_ping
+  hosts: ubuntu
+  become: true
+  become_method: sudo
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:
+
+    - name: Ntp_install
+      ansible.builtin.apt:
+        name: ntp
+        update_cache: true
+
+    - name: Ntp_restart
+      ansible.builtin.service:
+        name: ntp
+        state: restarted
+
+    - name: Clean
+      ansible.builtin.apt:
+        autoclean: true
+        autoremove: true

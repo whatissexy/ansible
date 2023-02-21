@@ -1,23 +1,30 @@
 ---
-- name: NTP_Install_play
+- name: NTP_Install_PLAY
   hosts: ubuntu
   become: true
   become_method: sudo
   tasks:
-    - name: Test_ping
+    - name: Test_ping_TASK
       ansible.builtin.ping:
 
-    - name: Ntp_install
+    - name: Ntp_install_TASK
       ansible.builtin.apt:
         name: ntp
         update_cache: true
+      notify: Ntp_restart
 
-    - name: Ntp_restart
+    - name: Ntp_restart_TASK
       ansible.builtin.service:
         name: ntp
         state: restarted
 
-    - name: Clean
+    - name: Apt_clean_TASK
       ansible.builtin.apt:
         autoclean: true
         autoremove: true
+
+  handlers:
+    - name: Ntp_restart
+      ansible.builtin.service:
+        name: ntp
+        state: restarted

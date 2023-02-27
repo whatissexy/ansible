@@ -10,22 +10,29 @@
     - name: Ntp_install_TASK
       ansible.builtin.apt:
         name: ntp
+#        state: absent
         update_cache: true
       notify: Ntp_restart
+      register: result
+    - ansible.builtin.debug: var=result.stdout_lines
 
     - name: Ntp_restart_TASK
       ansible.builtin.service:
         name: ntp
         state: restarted
+      register: result
+    - ansible.builtin.debug: var=result.stdout_lines
 
     - name: Apt_clean_TASK
       ansible.builtin.apt:
         autoclean: true
         autoremove: true
-      register: clean
+#      register: clean
+      register: result
+    - ansible.builtin.debug: var=result.stdout_lines
 
-    - ansible.builtin.debug:
-        var: clean.stdout_lines
+#    - ansible.builtin.debug:
+#        var: clean.stdout_lines
 
   handlers:
     - name: Ntp_restart

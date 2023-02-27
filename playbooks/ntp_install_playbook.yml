@@ -22,6 +22,10 @@
       ansible.builtin.apt:
         autoclean: true
         autoremove: true
+      register: clean
+
+    - ansible.builtin.debug:
+        var: clean.stdout_lines
 
   handlers:
     - name: Ntp_restart

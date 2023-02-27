@@ -1,0 +1,36 @@
+---
+- name: APT_Upgrade_PLAY
+  hosts: ubuntu
+  become: true
+  become_method: sudo
+  tasks:
+    - name: Ping_TASK
+      ansible.builtin.ping:
+
+    - name: Apt_update_TASK
+      ansible.builtin.apt:
+        update_cache: true
+      register: apt_update
+
+    - name: Update_output
+      ansible.builtin.debug:
+        var: apt_update.stdout_lines
+
+    - name: Apt_upgrade_TASK
+      ansible.builtin.apt:
+        upgrade: safe
+      register: apt_upgrade
+
+    - name: Upgrade_output
+      ansible.builtin.debug:
+        var: apt_upgrade.stdout_lines
+
+    - name: Apt_clean_TASK
+      ansible.builtin.apt:
+        autoclean: true
+        autoremove: true
+      register: apt_clean
+
+    - name: Clean_output
+      ansible.builtin.debug:
+        var: apt_clean.stdout_lines

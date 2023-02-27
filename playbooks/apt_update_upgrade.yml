@@ -10,12 +10,14 @@
     - name: Apt_update_TASK
       ansible.builtin.apt:
         update_cache: true
+#      ansible.builtin.command: "apt update"
       register: apt_update
+    - ansible.builtin.debug: var=apt_update.stdout_lines
 
-    - name: Update_output
-      ansible.builtin.debug:
-        var: apt_update.stdout_lines
-
+#    - name: Update_output
+#      ansible.builtin.debug:
+#        var: apt_update.stdout_lines
+#
     - name: Apt_upgrade_TASK
       ansible.builtin.apt:
         upgrade: safe

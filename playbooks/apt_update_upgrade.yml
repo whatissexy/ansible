@@ -3,14 +3,18 @@
   hosts: ubuntu
   become: true
   become_method: sudo
+  vars_files:
+    - ~/.ansible/secrets.yml
+  vars:
+    ansible_become_pass: '{{ vault_become_pass }}'
   tasks:
     - name: Ping_TASK
       ansible.builtin.ping:
 
     - name: Apt_update_TASK
-      ansible.builtin.apt:
-        update_cache: true
-#      ansible.builtin.command: "apt update"
+#      ansible.builtin.apt:
+#        update_cache: true
+      ansible.builtin.command: "apt update"
       register: apt_update
     - ansible.builtin.debug: var=apt_update.stdout_lines
 

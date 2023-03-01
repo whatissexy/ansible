@@ -3,6 +3,10 @@
   hosts: ubuntu
   become: true
   become_method: sudo
+  vars_files:
+    - ~/.ansible/secrets.yml
+  vars:
+    ansible_become_pass: '{{ vault_become_pass }}'
   tasks:
     - name: Test_ping_TASK
       ansible.builtin.ping:

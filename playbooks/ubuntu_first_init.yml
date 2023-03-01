@@ -3,7 +3,13 @@
   hosts: ubuntu
   become: true
   become_method: sudo
+  vars_files:
+    - ~/.ansible/secrets.yml
+  vars:
+    ansible_become_pass: '{{ vault_become_pass }}'
   tasks:
+#    - name: Include_vault_pass
+#      ansible.builtin.include_vars: ~/.ansible/secrets.yml
     - name: Ping
       ansible.builtin.ping:
 #    - ansible.builtin.debug: var=hostvars[inventory_hostname]

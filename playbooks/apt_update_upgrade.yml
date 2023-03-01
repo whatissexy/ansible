@@ -12,9 +12,9 @@
       ansible.builtin.ping:
 
     - name: Apt_update_TASK
-#      ansible.builtin.apt:
-#        update_cache: true
-      ansible.builtin.command: "apt update"
+      ansible.builtin.apt:
+        update_cache: true
+#      ansible.builtin.command: "apt update"
       register: apt_update
     - ansible.builtin.debug: var=apt_update.stdout_lines
 
